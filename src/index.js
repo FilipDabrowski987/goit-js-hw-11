@@ -6,19 +6,24 @@ const input = form.querySelector('input[type="text"][name="searchQuery"]');
 const button = form.querySelector('button[type="submit"]');
 
 const fetchImages = () => {
-        axios.defaults.headers.common["x-api-key"] = '42664438-fd58fde2f94660d61e5943804';
+       // axios.defaults.headers.common["x-api-key"] = '42664438-fd58fde2f94660d61e5943804';
         return axios
-            .get(`https://pixabay.com/api/`)
-            .then(response => response.data);
+        .get(`https://pixabay.com/api/?key=42664438-fd58fde2f94660d61e5943804`)
+        .then(response => response.data)
+        .then(console.log('obraz'));
 };
 
-try {
-    fetchImages()
-    //.then(data => renderSelect(data))
-    //.catch(showError);
-} catch (error) {
-  console.error(error);
-}
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    try {
+        fetchImages()
+        //.then(data => renderSelect(data))
+        //.catch(showError);
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 
 //function showError(errorMessage) {
   //console.error(errorMessage);
