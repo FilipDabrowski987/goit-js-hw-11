@@ -32,7 +32,11 @@ async function fetchImages() {
         }));
 
         gallery.innerHTML = '';
-        const imageCard = images.map(image => `
+        if (images.length === 0) {
+            emptyGallery.style.display = 'block';
+        } else {
+            emptyGallery.style.display = 'none';
+            const imageCard = images.map(image => `
         <div class="photo-card">
         <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
         <div class="info">
@@ -43,8 +47,8 @@ async function fetchImages() {
         </div>
       </div>
         `);
-        gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
-
+            gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
+        }
     } catch (error) {
         console.error(error);
     }

@@ -27,7 +27,7 @@ button {
 }
 
 .empty-gallery {
-    display: block;
+    display: none;
     text-align: center;
     justify-content: center;
 }
