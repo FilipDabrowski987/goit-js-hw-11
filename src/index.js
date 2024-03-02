@@ -16,11 +16,11 @@ async function fetchImages() {
         _safesearch: 'true',
     });
        // axios.defaults.headers.common["x-api-key"] = '42664438-fd58fde2f94660d61e5943804';
-        return axios
-        .get(`https://pixabay.com/api/?key=42664438-fd58fde2f94660d61e5943804`)
+    return axios
+        .get(`https://pixabay.com/api/?key=42664438-fd58fde2f94660d61e5943804&${searchParams}`)
         .then(response => response.data)
-        .then(console.log('obraz'))
-        .then(console.log(searchParams));
+        .then(console.log(searchParams))
+        .then(console.log(response.data));
 };
 
 form.addEventListener('submit', (event) => {
@@ -40,3 +40,22 @@ form.addEventListener('submit', (event) => {
   //error.classList.remove('hidden');
   //loader.classList.add('hidden');
 //};
+
+
+//<div class="photo-card">
+  //<img src="" alt="" loading="lazy" />
+  //<div class="info">
+    //<p class="info-item">
+      //<b>Likes</b>
+    //</p>
+    //<p class="info-item">
+      //<b>Views</b>
+    //</p>
+    //<p class="info-item">
+      //<b>Comments</b>
+    //</p>
+    //<p class="info-item">
+      //<b>Downloads</b>
+    //</p>
+  //</div>
+//</div>
