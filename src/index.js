@@ -1,10 +1,20 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const form = document.querySelector('#search-form');
 const input = form.querySelector('input[type="text"][name="searchQuery"]');
 const gallery = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more-button');
+
+const lightbox = new SimpleLightbox('.photo-card1', {
+        captions: true,
+        captionType: 'attr',
+        captionsData: 'alt',
+        captionPosition: 'bottom',
+        captionDelay: 250
+    });
 
 let currentPage = 1;
 let currentQuery = '';
@@ -17,7 +27,7 @@ async function fetchImages() {
         orientation: 'horizontal',
         safesearch: 'true',
         page: currentPage,
-        per_page: 40,
+        per_page: 40
     });
 
     try {
@@ -34,7 +44,7 @@ async function fetchImages() {
             likes: image.likes,
             views: image.views,
             comments: image.comments,
-            downloads: image.downloads,
+            downloads: image.downloads
         }));
 
         if (images.length === 0) {
@@ -44,7 +54,9 @@ async function fetchImages() {
             Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
             const imageCard = images.map(image => `
         <div class="photo-card">
+        <a href="${image.largeImageURL}" class="photo-card1">
         <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+        </a>
         <div class="info">
           <p class="info-item"><b>Likes:</b><br> ${image.likes}</p>
           <p class="info-item"><b>Views:</b><br> ${image.views}</p>
@@ -52,8 +64,10 @@ async function fetchImages() {
           <p class="info-item"><b>Downloads:</b><br> ${image.downloads}</p>
         </div>
       </div>
-        `);
-        gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
+        `);       
+            
+            gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
+            lightbox.refresh();
         currentPage++;
         if (response.data.totalHits <= currentPage * searchParams.per_page) {
             Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
