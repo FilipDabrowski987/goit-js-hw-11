@@ -6,7 +6,9 @@ const form = document.querySelector('#search-form');
 const input = form.querySelector('input[type="text"][name="searchQuery"]');
 //const button = form.querySelector('.search-button');
 const gallery = document.querySelector('.gallery');
-const loadMoreButton = document.querySelector('.load-more-button');
+// const loadMoreButton = document.querySelector('.load-more-button');
+
+let currentPage = 1;
 
 async function fetchImages() {
     const searchParams = new URLSearchParams({
@@ -15,6 +17,8 @@ async function fetchImages() {
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: 'true',
+        page: currentPage,
+        per_page: 40,
     });
 
     try {
@@ -29,6 +33,8 @@ async function fetchImages() {
             views: image.views,
             comments: image.comments,
             downloads: image.downloads,
+            // page: currentPage,
+            // per_page: 3,
         }));
 
         gallery.innerHTML = '';
@@ -47,22 +53,16 @@ async function fetchImages() {
       </div>
         `);
             gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
+            currentPage++;
         }
     } catch (error) {
         console.error(error);
     }
 }
 
-//const lightbox = new SimpleLightbox('.gallery a', {
-        //captions: true,
-        //captionType: 'attr',
-        //captionsData: 'alt',
-        //captionPosition: 'bottom',
-        //captionDelay: 250,
-    //});
-
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+    currentPage = 1;
     try {
         fetchImages()
         //.then(data => renderSelect(data))
@@ -71,3 +71,11 @@ form.addEventListener('submit', (event) => {
         console.error(error);
     }
 });
+
+//const lightbox = new SimpleLightbox('.gallery a', {
+        //captions: true,
+        //captionType: 'attr',
+        //captionsData: 'alt',
+        //captionPosition: 'bottom',
+        //captionDelay: 250,
+    //});

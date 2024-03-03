@@ -23,7 +23,7 @@ input {
 }
 
 .load-more-button {
-    display: none;
+    /* display: none; */
 }
 
 .gallery {
