@@ -25,7 +25,7 @@ async function fetchImages() {
             .get(`https://pixabay.com/api/?${searchParams}`);
         
         const totalHits = response.data.totalHits;
-        Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+        
         
         const images = response.data.hits.map(image => ({
             webformatURL: image.webformatURL,
@@ -41,6 +41,7 @@ async function fetchImages() {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
             loadMoreButton.classList.add('hidden');
         } else {
+            Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
             const imageCard = images.map(image => `
         <div class="photo-card">
         <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
