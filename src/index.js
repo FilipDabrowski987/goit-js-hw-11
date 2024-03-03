@@ -18,7 +18,7 @@ async function fetchImages() {
         orientation: 'horizontal',
         safesearch: 'true',
         page: currentPage,
-        per_page: 40,
+        per_page: 100,
     });
 
     try {
@@ -55,7 +55,7 @@ async function fetchImages() {
         `);
         gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
         currentPage++;
-        if (response.data.totalHits <= currentPage * per_page) {
+        if (response.data.totalHits <= currentPage * searchParams.per_page) {
             Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
             loadMoreButton.classList.add('hidden');
     }
@@ -67,7 +67,6 @@ async function fetchImages() {
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    // Notiflix.Notify.success("Hooray! We found ${totalHits} images.");
     gallery.innerHTML = '';
     loadMoreButton.classList.remove('hidden');
     currentPage = 1;
