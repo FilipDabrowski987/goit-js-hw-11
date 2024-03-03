@@ -18,13 +18,15 @@ async function fetchImages() {
         orientation: 'horizontal',
         safesearch: 'true',
         page: currentPage,
-        per_page: 4, // zmienić na 40!!!
+        per_page: 40,
     });
-    console.log(searchParams);
 
     try {
         const response = await axios
             .get(`https://pixabay.com/api/?${searchParams}`);
+        
+        const totalHits = response.data.totalHits;
+        Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
         
         const images = response.data.hits.map(image => ({
             webformatURL: image.webformatURL,
@@ -34,11 +36,8 @@ async function fetchImages() {
             views: image.views,
             comments: image.comments,
             downloads: image.downloads,
-            // page: currentPage,
-            // per_page: 3,
         }));
 
-        // gallery.innerHTML = '';
         if (images.length === 0) {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
             loadMoreButton.classList.add('hidden');
@@ -56,7 +55,7 @@ async function fetchImages() {
         `);
         gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
         currentPage++;
-        if (response.data.totalHits <= currentPage * 4) { //zmienić na 40!!
+        if (response.data.totalHits <= currentPage * per_page) {
             Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
             loadMoreButton.classList.add('hidden');
     }
@@ -68,14 +67,13 @@ async function fetchImages() {
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+    // Notiflix.Notify.success("Hooray! We found ${totalHits} images.");
     gallery.innerHTML = '';
     loadMoreButton.classList.remove('hidden');
     currentPage = 1;
     currentQuery = input.value.split(' ').join('+');
     try {
         fetchImages()
-        //.then(data => renderSelect(data))
-        //.catch(showError);
     } catch (error) {
         console.error(error);
     }
