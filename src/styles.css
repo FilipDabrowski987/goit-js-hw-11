@@ -22,8 +22,16 @@ input {
     border-radius: 16px;
 }
 
+/* klasa hidden dla load more */
 .hidden {
     display: none;
+}
+/* klasa hidden dla load more */
+
+.load-more-button-wrapper{
+    display: block;
+    text-align: center;
+    justify-content: center;
 }
 
 .gallery {

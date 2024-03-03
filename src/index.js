@@ -9,6 +9,7 @@ const gallery = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more-button');
 
 let currentPage = 1;
+let currentQuery = '';
 
 async function fetchImages() {
     const searchParams = new URLSearchParams({
@@ -40,6 +41,7 @@ async function fetchImages() {
         gallery.innerHTML = '';
         if (images.length === 0) {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+            loadMoreButton.classList.add('hidden');
         } else {
             const imageCard = images.map(image => `
         <div class="photo-card">
@@ -52,8 +54,12 @@ async function fetchImages() {
         </div>
       </div>
         `);
-            gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
-            currentPage++;
+        gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
+        currentPage++;
+        if (response.data.totalHits <= currentPage * 40) {
+            Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+            loadMoreButton.classList.add('hidden');
+    }
         }
     } catch (error) {
         console.error(error);
@@ -64,6 +70,7 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     loadMoreButton.classList.remove('hidden');
     currentPage = 1;
+    currentQuery = input.value.split(' ').join('+');
     try {
         fetchImages()
         //.then(data => renderSelect(data))
@@ -73,9 +80,7 @@ form.addEventListener('submit', (event) => {
     }
 });
 
-// // loadMoreButton.addEventListener('submit', (event) => {
-
-// });
+loadMoreButton.addEventListener('click', fetchImages);
 
 //const lightbox = new SimpleLightbox('.gallery a', {
         //captions: true,
