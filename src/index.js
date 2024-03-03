@@ -4,8 +4,9 @@ import Notiflix from 'notiflix';
 
 const form = document.querySelector('#search-form');
 const input = form.querySelector('input[type="text"][name="searchQuery"]');
-//const button = form.querySelector('button[type="submit"]');
+//const button = form.querySelector('.search-button');
 const gallery = document.querySelector('.gallery');
+const loadMoreButton = document.querySelector('.load-more-button');
 
 async function fetchImages() {
     const searchParams = new URLSearchParams({
@@ -17,7 +18,6 @@ async function fetchImages() {
     });
 
     try {
-        // axios.defaults.headers.common["x-api-key"] = '42664438-fd58fde2f94660d61e5943804';
         const response = await axios
             .get(`https://pixabay.com/api/?${searchParams}`);
         
@@ -71,10 +71,3 @@ form.addEventListener('submit', (event) => {
         console.error(error);
     }
 });
-
-
-//function showError(errorMessage) {
-  //console.error(errorMessage);
-  //error.classList.remove('hidden');
-  //loader.classList.add('hidden');
-//};
