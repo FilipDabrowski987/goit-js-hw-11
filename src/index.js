@@ -4,7 +4,6 @@ import Notiflix from 'notiflix';
 
 const form = document.querySelector('#search-form');
 const input = form.querySelector('input[type="text"][name="searchQuery"]');
-//const button = form.querySelector('.search-button');
 const gallery = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more-button');
 
@@ -14,13 +13,14 @@ let currentQuery = '';
 async function fetchImages() {
     const searchParams = new URLSearchParams({
         key: '42664438-fd58fde2f94660d61e5943804',
-        q: input.value.split(' ').join('+'),
+        q: currentQuery,
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: 'true',
         page: currentPage,
         per_page: 4, // zmienić na 40!!!
     });
+    console.log(searchParams);
 
     try {
         const response = await axios
@@ -38,7 +38,7 @@ async function fetchImages() {
             // per_page: 3,
         }));
 
-        gallery.innerHTML = '';
+        // gallery.innerHTML = '';
         if (images.length === 0) {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
             loadMoreButton.classList.add('hidden');
@@ -56,7 +56,7 @@ async function fetchImages() {
         `);
         gallery.insertAdjacentHTML('beforeend', imageCard.join(''));
         currentPage++;
-        if (response.data.totalHits <= currentPage * 40) {
+        if (response.data.totalHits <= currentPage * 4) { //zmienić na 40!!
             Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
             loadMoreButton.classList.add('hidden');
     }
@@ -68,6 +68,7 @@ async function fetchImages() {
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+    gallery.innerHTML = '';
     loadMoreButton.classList.remove('hidden');
     currentPage = 1;
     currentQuery = input.value.split(' ').join('+');
