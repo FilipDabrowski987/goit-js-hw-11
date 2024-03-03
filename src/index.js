@@ -1,11 +1,11 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
+//import SimpleLightbox from "simplelightbox";
 
 const form = document.querySelector('#search-form');
 const input = form.querySelector('input[type="text"][name="searchQuery"]');
 //const button = form.querySelector('button[type="submit"]');
 const gallery = document.querySelector('.gallery');
-const emptyGallery = document.querySelector('.empty-gallery');
 
 async function fetchImages() {
     const searchParams = new URLSearchParams({
@@ -33,9 +33,8 @@ async function fetchImages() {
 
         gallery.innerHTML = '';
         if (images.length === 0) {
-            emptyGallery.style.display = 'block';
+            Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
         } else {
-            emptyGallery.style.display = 'none';
             const imageCard = images.map(image => `
         <div class="photo-card">
         <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
@@ -53,6 +52,14 @@ async function fetchImages() {
         console.error(error);
     }
 }
+
+//const lightbox = new SimpleLightbox('.gallery a', {
+        //captions: true,
+        //captionType: 'attr',
+        //captionsData: 'alt',
+        //captionPosition: 'bottom',
+        //captionDelay: 250,
+    //});
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
