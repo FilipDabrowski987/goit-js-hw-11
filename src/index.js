@@ -6,7 +6,7 @@ const form = document.querySelector('#search-form');
 const input = form.querySelector('input[type="text"][name="searchQuery"]');
 //const button = form.querySelector('.search-button');
 const gallery = document.querySelector('.gallery');
-// const loadMoreButton = document.querySelector('.load-more-button');
+const loadMoreButton = document.querySelector('.load-more-button');
 
 let currentPage = 1;
 
@@ -18,7 +18,7 @@ async function fetchImages() {
         orientation: 'horizontal',
         safesearch: 'true',
         page: currentPage,
-        per_page: 40,
+        per_page: 4, // zmienić na 40!!!
     });
 
     try {
@@ -62,6 +62,7 @@ async function fetchImages() {
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+    loadMoreButton.classList.remove('hidden');
     currentPage = 1;
     try {
         fetchImages()
@@ -71,6 +72,10 @@ form.addEventListener('submit', (event) => {
         console.error(error);
     }
 });
+
+// // loadMoreButton.addEventListener('submit', (event) => {
+
+// });
 
 //const lightbox = new SimpleLightbox('.gallery a', {
         //captions: true,
