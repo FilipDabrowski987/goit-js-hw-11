@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
-//import SimpleLightbox from "simplelightbox";
 
 const form = document.querySelector('#search-form');
 const input = form.querySelector('input[type="text"][name="searchQuery"]');
@@ -18,7 +17,7 @@ async function fetchImages() {
         orientation: 'horizontal',
         safesearch: 'true',
         page: currentPage,
-        per_page: 100,
+        per_page: 40,
     });
 
     try {
@@ -79,11 +78,3 @@ form.addEventListener('submit', (event) => {
 });
 
 loadMoreButton.addEventListener('click', fetchImages);
-
-//const lightbox = new SimpleLightbox('.gallery a', {
-        //captions: true,
-        //captionType: 'attr',
-        //captionsData: 'alt',
-        //captionPosition: 'bottom',
-        //captionDelay: 250,
-    //});
